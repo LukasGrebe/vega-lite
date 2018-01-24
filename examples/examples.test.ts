@@ -13,7 +13,8 @@ const vgSchema = require('vega/build/vega-schema.json');
 const ajv = new Ajv({
   validateSchema: true,
   allErrors: true,
-  extendRefs: 'fail'
+  extendRefs: 'fail',
+  schemaId: 'id'
 });
 
 ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'), 'http://json-schema.org/draft-04/schema#');
@@ -33,7 +34,7 @@ function validateVL(spec: TopLevelExtendedSpec) {
 }
 
 function validateVega(spec: TopLevelExtendedSpec) {
-  const vegaSpec = JSON.parse(JSON.stringify(compile(spec).spec));
+  const vegaSpec = compile(spec).spec;
 
   const valid = validateVg(vegaSpec);
   const errors = validateVg.errors;
